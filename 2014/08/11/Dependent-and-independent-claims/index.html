@@ -1,0 +1,602 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Dependent and independent patent claims | iFourseasons</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="dsc">
+    
+
+    
+    <meta name="description" content="最近新接一个项目，是做法律申明的，不过在维基百科上的中文翻译是“权利要求”，我也不是学法律的，这个名词就不就结了，只要英文同意是patent claims就好。">
+<meta name="keywords" content="NLP,Patent claim,readability">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dependent and independent patent claims">
+<meta property="og:url" content="http://yoursite.com/2014/08/11/Dependent-and-independent-claims/index.html">
+<meta property="og:site_name" content="iFourseasons">
+<meta property="og:description" content="最近新接一个项目，是做法律申明的，不过在维基百科上的中文翻译是“权利要求”，我也不是学法律的，这个名词就不就结了，只要英文同意是patent claims就好。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2015-10-19T09:26:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Dependent and independent patent claims">
+<meta name="twitter:description" content="最近新接一个项目，是做法律申明的，不过在维基百科上的中文翻译是“权利要求”，我也不是学法律的，这个名词就不就结了，只要英文同意是patent claims就好。">
+
+    
+    <link rel="alternative" href="/atom.xml" title="iFourseasons" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="iFourseasons" title="iFourseasons"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="iFourseasons">iFourseasons</a></h1>
+				<h2 class="blog-motto">Passar al foco i di quieti e contenti. Mentre la pioggia fuor bagna ben cento.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/08/11/Dependent-and-independent-claims/" title="Dependent and independent patent claims" itemprop="url">Dependent and independent patent claims</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="dsc" target="_blank" itemprop="author">dsc</a>
+		
+  <p class="article-time">
+    <time datetime="2014-08-11T04:44:28.000Z" itemprop="datePublished"> 发表于 2014-08-11</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>最近新接一个项目，是做法律申明的，不过在<a href="http://zh.wikipedia.org/wiki/%E6%9D%83%E5%88%A9%E8%A6%81%E6%B1%82" target="_blank" rel="external">维基百科</a>上的中文翻译是“权利要求”，我也不是学法律的，这个名词就不就结了，只要英文同意是patent claims就好。<br><a id="more"></a><br>关于patent claim，这篇文章主要要说明的是independent和dependent两种patent claim。内容主要来源<a href="http://www.fishiplaw.com/~fishipla/chapter5a.html" target="_blank" rel="external">Claiming Strategies的第五章</a>以及<a href="http://zh.wikipedia.org/wiki/%E6%9D%83%E5%88%A9%E8%A6%81%E6%B1%82" target="_blank" rel="external">维基百科</a>。<br>黑喂狗~<br>What Are Independent And Dependent Claims?</p>
+<p>All patent claims are either independent or dependent. Independent claims stand alone, and do not reference any other claim. Thus, in the following claim set, claim 1 is independent because it does not reference any other claim.</p>
+<ol>
+<li><p>A chair having only two legs.</p>
+</li>
+<li><p>The chair of claim 1, further comprising at least one leg made of wood.</p>
+</li>
+<li><p>The chair of claim 2, wherein at least a portion of the chair is covered with a fabric.</p>
+</li>
+</ol>
+<p>When filing a new patent application, claim 1 should always be independent. During prosecution, of course, claim 1 might be canceled or withdrawn, or it might be amended to recite dependency on a higher numbered claim. No matter. The examiner would renumber the claims prior to issuance so that the first independent claim is once again numbered claim 1.<br><!--more--><br>Dependent claims reference another claim and are proper subsets of their parents, i.e. the claim(s) upon which they depend. Continuing with the example above, claim 2 is dependent because it references claim 1. Dependent claims include all the limitations of the referenced claim. To infringe claim 2, a competitor’s chair would not only have to have at least one leg made of wood (the limitation stated in claim 2), but it would also need to have only two legs (the limitation imported by reference to claim 1). Dependent claims can be dependent on either an independent claim, or on another dependent claim. In the example above, claim 3 might is dependent on claim 2, and includes all of the limitations of claim 3, plus the limitations of claim 2, plus the limitations of claim 1.</p>
+<p>Dependent claims can depend on any other claim, even if that parent claim has a higher number. Thus, claim 2 could be dependent on claim 5 or 7, even though those claims appear later in the listing. Having a claim dependent on a higher number claim often occurs during patent prosecution as a result of cancellation of claims. For example, claim 2-10 could be dependent on claim 1, and then claim 1 is canceled or withdrawn. The applicant may then add a new claim 18, and amend claims 2-10 to be dependent on claim 18. Even claim 1, which is traditionally an independent claim, could be made dependent on another claim (say claim 15). When the patent is issued the patent office will renumber the claims to put them in a logical order.</p>
+<p>让我们再来看<a href="http://zh.wikipedia.org/wiki/%E6%9D%83%E5%88%A9%E8%A6%81%E6%B1%82" target="_blank" rel="external">维基百科</a>的中文介绍：</p>
+<p>权利要求的基本种类有两种：</p>
+<p>独立权利要求，其可以独立存在，以及<br>从属权利要求，通常描述特定的实施例以作为保险之用，其必须从属于一条或数条权利要求。短语“在一个实施例中”、“在一个优选实施例中”、“在一个特殊实施例中”、“在一个最优实施例中”或类似的，等等，经常出现在专利申请的具体实施方式部分中，用来介绍该发明一个特殊的实施或者执行的方法。这些实施例通常对应于从属权利要求或者可以成为从属权利要求的基础。每一条从属权利要求按法律要求必须要比其从属的独立权利要求的范围狭窄。相应的，可能有人认为从属权利要求存在的意义不大。然而事实上，专利的申请人提交和获得批准一系列的从属权利要求至少有两个好处：</p>
+<ul>
+<li>对独立权利要求语言的解释：独立权利要求通常都是以非常广义的术语组成的，从而避免竞争对手通过对基本设计某些方面的变更来绕过权利要求。但是当一个很广义的术语被使用时，这个词语本身的范围也会成为疑问。例如，“底部”包不包括“一些支柱”？ 一条包含“其中该底部包括一些支柱”的从属权利要求，如果能通过的话，就能起到解释和澄清的作用。</li>
+<li>基本权利要求可能无效：不管是在专利申请刚开始还是在已经获得专利权之后，都不可能知道某条权利要求是否有效。这是因为任何在申请日之前一年内在世界上任何地方，任何语言的公开都能够使得专利无效（美国的规定，其它的国家可能还要严格些）。由于不可能完全知道世界上所有的公开，不确定性总是存在的。如果独立权利要求被判定为无效，那么，它的从属权利要求还是有可能存活，并且具有足够宽的保护范围以阻止竞争者进入关键的有商业价值的范围。<br>当一条特殊种类的权利要求（见下文），例如一条产品权利要求，从属于一条其它种类的权利要求，例如过程权利要求时，它就不会被看成是一条从属权利要求而是一条独立权利要求（至少在欧洲专利公约中是这样）。</li>
+</ul>
+<p>权利要求也可以根据它们“要求”的对象来分类。一条权利要求可以指</p>
+<p>一个物理意义上的实体，例如，一个产品（或原料）或者是一个装置（或者仪器、系统、物件……）。这样的权利要求叫做“产品权利要求”或者“装置权利要求”；或者<br>一项活动，例如一个过程（或方法）或者使用。这样的权利要求叫做“过程权利要求”（或者方法权利要求）或者“使用权利要求”。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Text-visualization/">Text_visualization</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/NLP/">NLP</a><a href="/tags/Patent-claim/">Patent claim</a><a href="/tags/readability/">readability</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2014/08/11/Dependent-and-independent-claims/" data-title="Dependent and independent patent claims | iFourseasons" data-tsina="1500793182## e.g. 2176287895  Your weibo ID,It will be used in share button." class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/08/25/latex-citation/" title="Latex 注释的用法">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Latex 注释的用法</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/08/07/half-cycle-in-processing/"  title="在Processing中画半圆">
+ <strong>下一篇：</strong><br/> 
+ <span>在Processing中画半圆
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2014/08/11/Dependent-and-independent-claims/" data-title="Dependent and independent patent claims" data-url="http://yoursite.com/2014/08/11/Dependent-and-independent-claims/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/LeetCode/" title="LeetCode">LeetCode<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Markdown/" title="Markdown">Markdown<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Paper-writing/" title="Paper writing">Paper writing<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Text-visualization/" title="Text_visualization">Text_visualization<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/machine-learning/" title="machine learning">machine learning<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/python/" title="python">python<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/博客/" title="博客">博客<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/LeetCode/" title="LeetCode">LeetCode<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/blog/" title="blog">blog<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MachineLearning/" title="MachineLearning">MachineLearning<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/python/" title="python">python<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/NLP/" title="NLP">NLP<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PRML/" title="PRML">PRML<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Write/" title="Write">Write<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Processing/" title="Processing">Processing<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Visualization/" title="Visualization">Visualization<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/paper/" title="paper">paper<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/writing/" title="writing">writing<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Markdown/" title="Markdown">Markdown<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/readability/" title="readability">readability<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Patent-claim/" title="Patent claim">Patent claim<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Math/" title="Math">Math<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Latex/" title="Latex">Latex<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/Latex/" style="font-size: 10px;">Latex</a> <a href="/tags/LeetCode/" style="font-size: 20px;">LeetCode</a> <a href="/tags/MachineLearning/" style="font-size: 15px;">MachineLearning</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Math/" style="font-size: 10px;">Math</a> <a href="/tags/NLP/" style="font-size: 12.5px;">NLP</a> <a href="/tags/PRML/" style="font-size: 12.5px;">PRML</a> <a href="/tags/Patent-claim/" style="font-size: 10px;">Patent claim</a> <a href="/tags/Processing/" style="font-size: 10px;">Processing</a> <a href="/tags/Python/" style="font-size: 20px;">Python</a> <a href="/tags/Visualization/" style="font-size: 10px;">Visualization</a> <a href="/tags/Write/" style="font-size: 12.5px;">Write</a> <a href="/tags/blog/" style="font-size: 17.5px;">blog</a> <a href="/tags/paper/" style="font-size: 10px;">paper</a> <a href="/tags/python/" style="font-size: 12.5px;">python</a> <a href="/tags/readability/" style="font-size: 10px;">readability</a> <a href="/tags/test/" style="font-size: 10px;">test</a> <a href="/tags/writing/" style="font-size: 10px;">writing</a>
+    </div>
+  </div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hi, I&#39;m Shichao <br/>
+			Ever tried. Ever failed. No matter. Try Again. Fail again. Fail better.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/dongshichao" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/flydsc" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="dsc">dsc</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"dongshichao"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

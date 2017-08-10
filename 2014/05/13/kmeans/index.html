@@ -1,0 +1,599 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>EM算法讨论（1）：K-means 算法 | iFourseasons</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="dsc">
+    
+
+    
+    <meta name="description" content="前前后后关于K-means算法也关注过很多次了。更多是从实现的角度谈论算法。最近要研究EM算法，作为EM的特例，首先从原理上再次讨论下K-means算法吧。 首先回顾K-means算法解决的问题是无监督学习（unsupervised learning）的相关问题。举个例子，如同我们有一筐苹果，每个苹果有不一样的参数，包括大小、颜色、口感等等，我们要把这一筐苹果分成不同的cluster（簇），在每个">
+<meta name="keywords" content="MachineLearning,PRML">
+<meta property="og:type" content="article">
+<meta property="og:title" content="EM算法讨论（1）：K-means 算法">
+<meta property="og:url" content="http://yoursite.com/2014/05/13/kmeans/index.html">
+<meta property="og:site_name" content="iFourseasons">
+<meta property="og:description" content="前前后后关于K-means算法也关注过很多次了。更多是从实现的角度谈论算法。最近要研究EM算法，作为EM的特例，首先从原理上再次讨论下K-means算法吧。 首先回顾K-means算法解决的问题是无监督学习（unsupervised learning）的相关问题。举个例子，如同我们有一筐苹果，每个苹果有不一样的参数，包括大小、颜色、口感等等，我们要把这一筐苹果分成不同的cluster（簇），在每个">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/5974495egw1egenebqsrfj20m80go761.jpg">
+<meta property="og:updated_time" content="2014-08-30T09:42:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="EM算法讨论（1）：K-means 算法">
+<meta name="twitter:description" content="前前后后关于K-means算法也关注过很多次了。更多是从实现的角度谈论算法。最近要研究EM算法，作为EM的特例，首先从原理上再次讨论下K-means算法吧。 首先回顾K-means算法解决的问题是无监督学习（unsupervised learning）的相关问题。举个例子，如同我们有一筐苹果，每个苹果有不一样的参数，包括大小、颜色、口感等等，我们要把这一筐苹果分成不同的cluster（簇），在每个">
+<meta name="twitter:image" content="http://ww3.sinaimg.cn/large/5974495egw1egenebqsrfj20m80go761.jpg">
+
+    
+    <link rel="alternative" href="/atom.xml" title="iFourseasons" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="iFourseasons" title="iFourseasons"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="iFourseasons">iFourseasons</a></h1>
+				<h2 class="blog-motto">Passar al foco i di quieti e contenti. Mentre la pioggia fuor bagna ben cento.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/05/13/kmeans/" title="EM算法讨论（1）：K-means 算法" itemprop="url">EM算法讨论（1）：K-means 算法</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="dsc" target="_blank" itemprop="author">dsc</a>
+		
+  <p class="article-time">
+    <time datetime="2014-05-13T03:39:01.000Z" itemprop="datePublished"> 发表于 2014-05-13</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>前前后后关于K-means算法也关注过很多次了。更多是从实现的角度谈论算法。最近要研究EM算法，作为EM的特例，首先从原理上再次讨论下K-means算法吧。</p>
+<p>首先回顾K-means算法解决的问题是无监督学习（unsupervised learning）的相关问题。举个例子，如同我们有一筐苹果，每个苹果有不一样的参数，包括大小、颜色、口感等等，我们要把这一筐苹果分成不同的cluster（簇），在每个簇中，苹果总是有着相似的特征。另一个例子是我的一个同学曾经做过一个项目，项目关于K-means的社交网络聚类。我们的社交网络如Facebook、人人网、微博、twitter上有很多的朋友，有的是在Party上认识，有的可能是共同选修一门课程。聚类（clustering）的过程就是把这些朋友自动分成不同的类别。和分类（classification）不同的是，我们事先并不知道这些类别的label。</p>
+<p>本质上来说，K-means就是通过不断地计算距离，求出一个最优的解，如下图所示：<br><img src="http://ww3.sinaimg.cn/large/5974495egw1egenebqsrfj20m80go761.jpg" alt="K-means聚类"><br><a id="more"></a><br>所以，我们做了如下定义：<br>$$\displaystyle J = \sum_{n=1}^N\sum_{k=1}^K r_{nk} |x_n-\mu_k|^2$$<br>其中，$\mu_k$就是每个中心点的位置，即上图中的红色、绿色和蓝色的大点。$r_{nk}$在数据点 n 被归类到 cluster k 的时候为 1 ，否则为 0。而我们要做的，是最小化$J$的数值，使其收敛于某一值时，算法结束。</p>
+<p>我们可以看到，上溯的公式中存在$\mu_k$和$r_{nk}$两个变量，同时优化是一件不可能完成的任务。所以我们选择逐步优化。即我们先确定一个$\mu_k$，使其不再变化，此时来确定$r_{nk}$。这个步骤的意义就是，我们先选一些点，然后做一次指派的动作，看如何指派能得到一个最小的$J$。第二步，我们保证$r_{nk}$不再变化，优化$\mu_k$。这部分的意义在于使其更新中心点的位置。<br>通过推导，我们很容易发现，$r_{nk}$的最优化位置一定是距离每个点最近的位置。一旦确定$r_{nk}$，我们可以对$\mu_k$求导，得到：<br>$$\displaystyle \mu_k=\frac{\sum_n r_{nk}x_n}{\sum_n r_{nk}}$$<br>这个公式的意义在于说明$\mu_k$的值是当前簇的平均值。<br>以下是K-means的具体步骤：</p>
+<ol>
+<li>选定 K 个中心$\mu_k$的初值。这个过程通常是针对具体的问题有一些启发式的选取方法，或者大多数情况下采用随机选取的办法。因为前面说过 k-means并不能保证全局最优，而是否能收敛到全局最优解其实和初值的选取有很大的关系，所以有时候我们会多次选取初值跑 k-means ，并取其中最好的一次结果。</li>
+<li>将每个数据点归类到离它最近的那个中心点所代表的 cluster 中。</li>
+<li>用公式 $\mu_k = \frac{1}{N_k}\sum_{j\in\text{cluster}_k}x_j$ 计算出每个 cluster 的新的中心点。</li>
+<li>重复第二步，一直到迭代了最大的步数或者前后的 J 的值相差小于一个阈值为止。<br>一下是实现的<code>Python</code>代码：<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> with_statement</div><div class="line"><span class="keyword">import</span> cPickle <span class="keyword">as</span> pickle</div><div class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> pyplot</div><div class="line"><span class="keyword">from</span> numpy <span class="keyword">import</span> zeros, array, tile</div><div class="line"><span class="keyword">from</span> scipy.linalg <span class="keyword">import</span> norm</div><div class="line"><span class="keyword">import</span> numpy.matlib <span class="keyword">as</span> ml</div><div class="line"><span class="keyword">import</span> random</div><div class="line"> </div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">kmeans</span><span class="params">(X, k, observer=None, threshold=<span class="number">1e-15</span>, maxiter=<span class="number">300</span>)</span>:</span></div><div class="line">    N = len(X)</div><div class="line">    labels = zeros(N, dtype=int)</div><div class="line">    centers = array(random.sample(X, k))</div><div class="line">    iter = <span class="number">0</span></div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">calc_J</span><span class="params">()</span>:</span></div><div class="line">        sum = <span class="number">0</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(N):</div><div class="line">            sum += norm(X[i]-centers[labels[i]])</div><div class="line">        <span class="keyword">return</span> sum</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">distmat</span><span class="params">(X, Y)</span>:</span></div><div class="line">        n = len(X)</div><div class="line">        m = len(Y)</div><div class="line">        xx = ml.sum(X*X, axis=<span class="number">1</span>)</div><div class="line">        yy = ml.sum(Y*Y, axis=<span class="number">1</span>)</div><div class="line">        xy = ml.dot(X, Y.T)</div><div class="line"> </div><div class="line">        <span class="keyword">return</span> tile(xx, (m, <span class="number">1</span>)).T+tile(yy, (n, <span class="number">1</span>)) - <span class="number">2</span>*xy</div><div class="line"> </div><div class="line">    Jprev = calc_J()</div><div class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">        <span class="comment"># notify the observer</span></div><div class="line">        <span class="keyword">if</span> observer <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</div><div class="line">            observer(iter, labels, centers)</div><div class="line"> </div><div class="line">        <span class="comment"># calculate distance from x to each center</span></div><div class="line">        <span class="comment"># distance_matrix is only available in scipy newer than 0.7</span></div><div class="line">        <span class="comment"># dist = distance_matrix(X, centers)</span></div><div class="line">        dist = distmat(X, centers)</div><div class="line">        <span class="comment"># assign x to nearst center</span></div><div class="line">        labels = dist.argmin(axis=<span class="number">1</span>)</div><div class="line">        <span class="comment"># re-calculate each center</span></div><div class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(k):</div><div class="line">            idx_j = (labels == j).nonzero()</div><div class="line">            centers[j] = X[idx_j].mean(axis=<span class="number">0</span>)</div><div class="line"> </div><div class="line">        J = calc_J()</div><div class="line">        iter += <span class="number">1</span></div><div class="line"> </div><div class="line">        <span class="keyword">if</span> Jprev-J &lt; threshold:</div><div class="line">            <span class="keyword">break</span></div><div class="line">        Jprev = J</div><div class="line">        <span class="keyword">if</span> iter &gt;= maxiter:</div><div class="line">            <span class="keyword">break</span></div><div class="line"> </div><div class="line">    <span class="comment"># final notification</span></div><div class="line">    <span class="keyword">if</span> observer <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</div><div class="line">        observer(iter, labels, centers)</div><div class="line"> </div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    <span class="comment"># load previously generated points</span></div><div class="line">    <span class="keyword">with</span> open(<span class="string">'cluster.pkl'</span>) <span class="keyword">as</span> inf:</div><div class="line">        samples = pickle.load(inf)</div><div class="line">    N = <span class="number">0</span></div><div class="line">    <span class="keyword">for</span> smp <span class="keyword">in</span> samples:</div><div class="line">        N += len(smp[<span class="number">0</span>])</div><div class="line">    X = zeros((N, <span class="number">2</span>))</div><div class="line">    idxfrm = <span class="number">0</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(samples)):</div><div class="line">        idxto = idxfrm + len(samples[i][<span class="number">0</span>])</div><div class="line">        X[idxfrm:idxto, <span class="number">0</span>] = samples[i][<span class="number">0</span>]</div><div class="line">        X[idxfrm:idxto, <span class="number">1</span>] = samples[i][<span class="number">1</span>]</div><div class="line">        idxfrm = idxto</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">observer</span><span class="params">(iter, labels, centers)</span>:</span></div><div class="line">        <span class="keyword">print</span> <span class="string">"iter %d."</span> % iter</div><div class="line">        colors = array([[<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>], [<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>], [<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>]])</div><div class="line">        pyplot.plot(hold=<span class="keyword">False</span>)  <span class="comment"># clear previous plot</span></div><div class="line">        pyplot.hold(<span class="keyword">True</span>)</div><div class="line"> </div><div class="line">        <span class="comment"># draw points</span></div><div class="line">        data_colors=[colors[lbl] <span class="keyword">for</span> lbl <span class="keyword">in</span> labels]</div><div class="line">        pyplot.scatter(X[:, <span class="number">0</span>], X[:, <span class="number">1</span>], c=data_colors, alpha=<span class="number">0.5</span>)</div><div class="line">        <span class="comment"># draw centers</span></div><div class="line">        pyplot.scatter(centers[:, <span class="number">0</span>], centers[:, <span class="number">1</span>], s=<span class="number">200</span>, c=colors)</div><div class="line"> </div><div class="line">        pyplot.savefig(<span class="string">'kmeans/iter_%02d.png'</span> % iter, format=<span class="string">'png'</span>)</div><div class="line"> </div><div class="line">    kmeans(X, <span class="number">3</span>, observer=observer)</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>参考文献：</p>
+<ul>
+<li><a href="http://research.microsoft.com/en-us/um/people/cmbishop/PRML/" target="_blank" rel="external">PRML</a></li>
+<li><a href="http://blog.pluskid.org/?p=17" target="_blank" rel="external">漫谈 Clustering (1): k-means</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/machine-learning/">machine learning</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/MachineLearning/">MachineLearning</a><a href="/tags/PRML/">PRML</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2014/05/13/kmeans/" data-title="EM算法讨论（1）：K-means 算法 | iFourseasons" data-tsina="1500793182## e.g. 2176287895  Your weibo ID,It will be used in share button." class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/08/07/half-cycle-in-processing/" title="在Processing中画半圆">
+  <strong>上一篇：</strong><br/>
+  <span>
+  在Processing中画半圆</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/04/20/laplace-approximation/"  title="Laplace approximation笔记">
+ <strong>下一篇：</strong><br/> 
+ <span>Laplace approximation笔记
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2014/05/13/kmeans/" data-title="EM算法讨论（1）：K-means 算法" data-url="http://yoursite.com/2014/05/13/kmeans/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/LeetCode/" title="LeetCode">LeetCode<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Markdown/" title="Markdown">Markdown<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Paper-writing/" title="Paper writing">Paper writing<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Text-visualization/" title="Text_visualization">Text_visualization<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/machine-learning/" title="machine learning">machine learning<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/python/" title="python">python<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/博客/" title="博客">博客<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/LeetCode/" title="LeetCode">LeetCode<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/blog/" title="blog">blog<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MachineLearning/" title="MachineLearning">MachineLearning<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/python/" title="python">python<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/NLP/" title="NLP">NLP<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PRML/" title="PRML">PRML<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Write/" title="Write">Write<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Processing/" title="Processing">Processing<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Visualization/" title="Visualization">Visualization<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/paper/" title="paper">paper<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/writing/" title="writing">writing<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Markdown/" title="Markdown">Markdown<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/readability/" title="readability">readability<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Patent-claim/" title="Patent claim">Patent claim<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Math/" title="Math">Math<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Latex/" title="Latex">Latex<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/Latex/" style="font-size: 10px;">Latex</a> <a href="/tags/LeetCode/" style="font-size: 20px;">LeetCode</a> <a href="/tags/MachineLearning/" style="font-size: 15px;">MachineLearning</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Math/" style="font-size: 10px;">Math</a> <a href="/tags/NLP/" style="font-size: 12.5px;">NLP</a> <a href="/tags/PRML/" style="font-size: 12.5px;">PRML</a> <a href="/tags/Patent-claim/" style="font-size: 10px;">Patent claim</a> <a href="/tags/Processing/" style="font-size: 10px;">Processing</a> <a href="/tags/Python/" style="font-size: 20px;">Python</a> <a href="/tags/Visualization/" style="font-size: 10px;">Visualization</a> <a href="/tags/Write/" style="font-size: 12.5px;">Write</a> <a href="/tags/blog/" style="font-size: 17.5px;">blog</a> <a href="/tags/paper/" style="font-size: 10px;">paper</a> <a href="/tags/python/" style="font-size: 12.5px;">python</a> <a href="/tags/readability/" style="font-size: 10px;">readability</a> <a href="/tags/test/" style="font-size: 10px;">test</a> <a href="/tags/writing/" style="font-size: 10px;">writing</a>
+    </div>
+  </div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hi, I&#39;m Shichao <br/>
+			Ever tried. Ever failed. No matter. Try Again. Fail again. Fail better.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/dongshichao" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/flydsc" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="dsc">dsc</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"dongshichao"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
