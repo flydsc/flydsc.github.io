@@ -121,11 +121,11 @@
 <li>nonamebreak: keeps all the authors’ names in a citation on one line; causes overfull hboxes but helps with some hyperref problems.</li>
 </ul>
 <p>其他的系列用法找到了个<a href="http://blog.sciencenet.cn/blog-568426-730802.html" target="_blank" rel="external">中文翻译</a></p>
-<p>两个基本的cite命令是：\citet 和 \citep，区别如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">\citet&#123;jon90&#125;    --&gt;    Jones et al. (1990)</div><div class="line"></div><div class="line">\citet[chap. 2]&#123;jon90&#125;    --&gt;    Jones et al. (1990, chap. 2)</div><div class="line"></div><div class="line">\citep&#123;jon90&#125;    --&gt;    (Jones et al., 1990)</div><div class="line"></div><div class="line">\citep[chap. 2]&#123;jon90&#125;    --&gt;    (Jones et al., 1990, chap. 2)</div><div class="line"></div><div class="line">\citep[see][]&#123;jon90&#125;    --&gt;    (see Jones et al., 1990)</div><div class="line"></div><div class="line">\citep[see][chap. 2]&#123;jon90&#125;    --&gt;    (see Jones et al., 1990, chap. 2)</div><div class="line"></div><div class="line">\citet*&#123;jon90&#125;    --&gt;    Jones, Baker, and Williams (1990)</div><div class="line"></div><div class="line">\citep*&#123;jon90&#125;    --&gt;    (Jones, Baker, and Williams, 1990)</div></pre></td></tr></table></figure></p>
-<p>此外还有诸如只引作者名字的\citeauthor，\citeyear<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">\citeauthor&#123;jon90&#125;	    --&gt;    	Jones et al.</div><div class="line">\citeauthor*&#123;jon90&#125;	    --&gt;    	Jones, Baker, and Williams</div><div class="line">\citeyear&#123;jon90&#125;	    --&gt;    	1990</div><div class="line">\citeyearpar&#123;jon90&#125;	    --&gt;    	(1990)</div></pre></td></tr></table></figure></p>
-<p>多个参考文献引用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">\citet&#123;jon90,jam91&#125;	    --&gt;    	Jones et al. (1990); James et al. (1991)</div><div class="line">\citep&#123;jon90,jam91&#125;	    --&gt;    	(Jones et al., 1990; James et al. 1991)</div><div class="line">\citep&#123;jon90,jon91&#125;	    --&gt;    	(Jones et al., 1990, 1991)</div><div class="line">\citep&#123;jon90a,jon90b&#125;	    --&gt;    	(Jones et al., 1990a,b)</div></pre></td></tr></table></figure></p>
-<p>不同的latex编译环境下有不同额格式，如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">\citet&#123;jon90&#125;	    --&gt;    	Jones et al. [21]</div><div class="line">\citet[chap. 2]&#123;jon90&#125;	    --&gt;    	Jones et al. [21, chap. 2]</div><div class="line">\citep&#123;jon90&#125;	    --&gt;    	[21]</div><div class="line">\citep[chap. 2]&#123;jon90&#125;	    --&gt;    	[21, chap. 2]</div><div class="line">\citep[see][]&#123;jon90&#125;	    --&gt;    	[see 21]</div><div class="line">\citep[see][chap. 2]&#123;jon90&#125;	    --&gt;    	[see 21, chap. 2]</div><div class="line">\citep&#123;jon90a,jon90b&#125;	    --&gt;    	[21, 32]</div></pre></td></tr></table></figure></p>
-<p>此外，还有以上两个命令对应的去掉括号的命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">\citealt&#123;jon90&#125;	    --&gt;    	Jones et al. 1990</div><div class="line">\citealt*&#123;jon90&#125;	    --&gt;    	Jones, Baker, and Williams 1990</div><div class="line">\citealp&#123;jon90&#125;	    --&gt;    	Jones et al., 1990</div><div class="line">\citealp*&#123;jon90&#125;	    --&gt;    	Jones, Baker, and Williams, 1990</div><div class="line">\citealp&#123;jon90,jam91&#125;	    --&gt;    	Jones et al., 1990; James et al., 1991</div><div class="line">\citealp[pg. 32]&#123;jon90&#125;	    --&gt;    	Jones et al., 1990, pg. 32</div><div class="line">\citetext&#123;priv. comm.&#125;	    --&gt;    	(priv. comm.)</div></pre></td></tr></table></figure></p>
+<p>两个基本的cite命令是：\citet 和 \citep，区别如下：<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">\citet&#123;jon90&#125;    --&gt;    Jones et al. (1990)</div><div class="line"></div><div class="line">\citet[chap. 2]&#123;jon90&#125;    --&gt;    Jones et al. (1990, chap. 2)</div><div class="line"></div><div class="line">\citep&#123;jon90&#125;    --&gt;    (Jones et al., 1990)</div><div class="line"></div><div class="line">\citep[chap. 2]&#123;jon90&#125;    --&gt;    (Jones et al., 1990, chap. 2)</div><div class="line"></div><div class="line">\citep[<span class="string">see</span>][<span class="symbol"></span>]&#123;jon90&#125;    --&gt;    (see Jones et al., 1990)</div><div class="line"></div><div class="line">\citep[<span class="string">see</span>][<span class="symbol">chap. 2</span>]&#123;jon90&#125;    --&gt;    (see Jones et al., 1990, chap. 2)</div><div class="line"></div><div class="line">\citet*&#123;jon90&#125;    --&gt;    Jones, Baker, and Williams (1990)</div><div class="line"></div><div class="line">\citep*&#123;jon90&#125;    --&gt;    (Jones, Baker, and Williams, 1990)</div></pre></td></tr></table></figure></p>
+<p>此外还有诸如只引作者名字的\citeauthor，\citeyear<br><figure class="highlight livescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="string">\citeauthor&#123;jon90&#125;</span>	<span class="function">    --&gt;</span>    	Jones et al.</div><div class="line"><span class="string">\citeauthor*&#123;jon90&#125;</span>	<span class="function">    --&gt;</span>    	Jones, Baker, <span class="keyword">and</span> Williams</div><div class="line"><span class="string">\citeyear&#123;jon90&#125;</span>	<span class="function">    --&gt;</span>    	<span class="number">1990</span></div><div class="line"><span class="string">\citeyearpar&#123;jon90&#125;</span>	<span class="function">    --&gt;</span>    	(<span class="number">1990</span>)</div></pre></td></tr></table></figure></p>
+<p>多个参考文献引用：<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">\citet&#123;<span class="keyword">jon90,jam91&#125;	</span>    --&gt;    	<span class="keyword">Jones </span>et al. (<span class="number">1990</span>)<span class="comment">; James et al. (1991)</span></div><div class="line">\citep&#123;<span class="keyword">jon90,jam91&#125;	</span>    --&gt;    	(<span class="keyword">Jones </span>et al., <span class="number">1990</span><span class="comment">; James et al. 1991)</span></div><div class="line">\citep&#123;<span class="keyword">jon90,jon91&#125;	</span>    --&gt;    	(<span class="keyword">Jones </span>et al., <span class="number">1990</span>, <span class="number">1991</span>)</div><div class="line">\citep&#123;<span class="keyword">jon90a,jon90b&#125;	</span>    --&gt;    	(<span class="keyword">Jones </span>et al., <span class="number">1990</span>a,<span class="keyword">b)</span></div></pre></td></tr></table></figure></p>
+<p>不同的latex编译环境下有不同额格式，如：<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">\citet&#123;jon90&#125;	    --&gt;    	Jones et al. [21]</div><div class="line">\citet[chap. 2]&#123;jon90&#125;	    --&gt;    	Jones et al. [21, chap. 2]</div><div class="line">\citep&#123;jon90&#125;	    --&gt;    	[21]</div><div class="line">\citep[chap. 2]&#123;jon90&#125;	    --&gt;    	[21, chap. 2]</div><div class="line">\citep[<span class="string">see</span>][<span class="symbol"></span>]&#123;jon90&#125;	    --&gt;    	[see 21]</div><div class="line">\citep[<span class="string">see</span>][<span class="symbol">chap. 2</span>]&#123;jon90&#125;	    --&gt;    	[see 21, chap. 2]</div><div class="line">\citep&#123;jon90a,jon90b&#125;	    --&gt;    	[21, 32]</div></pre></td></tr></table></figure></p>
+<p>此外，还有以上两个命令对应的去掉括号的命令：<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">\citealt&#123;<span class="keyword">jon90&#125;	</span>    --&gt;    	<span class="keyword">Jones </span>et al. <span class="number">1990</span></div><div class="line">\citealt*&#123;<span class="keyword">jon90&#125;	</span>    --&gt;    	<span class="keyword">Jones, </span><span class="keyword">Baker, </span><span class="keyword">and </span>Williams <span class="number">1990</span></div><div class="line">\citealp&#123;<span class="keyword">jon90&#125;	</span>    --&gt;    	<span class="keyword">Jones </span>et al., <span class="number">1990</span></div><div class="line">\citealp*&#123;<span class="keyword">jon90&#125;	</span>    --&gt;    	<span class="keyword">Jones, </span><span class="keyword">Baker, </span><span class="keyword">and </span>Williams, <span class="number">1990</span></div><div class="line">\citealp&#123;<span class="keyword">jon90,jam91&#125;	</span>    --&gt;    	<span class="keyword">Jones </span>et al., <span class="number">1990</span><span class="comment">; James et al., 1991</span></div><div class="line">\citealp[pg. <span class="number">32</span>]&#123;<span class="keyword">jon90&#125;	</span>    --&gt;    	<span class="keyword">Jones </span>et al., <span class="number">1990</span>, pg. <span class="number">32</span></div><div class="line">\citetext&#123;priv. comm.&#125;	    --&gt;    	(priv. comm.)</div></pre></td></tr></table></figure></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -259,15 +259,11 @@
 			
 		
 			
-				<li><a href="/tags/python/" title="python">python<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/NLP/" title="NLP">NLP<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/PRML/" title="PRML">PRML<sup>2</sup></a></li>
+				<li><a href="/tags/python/" title="python">python<sup>2</sup></a></li>
 			
 		
 			
@@ -275,11 +271,15 @@
 			
 		
 			
+				<li><a href="/tags/PRML/" title="PRML">PRML<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Processing/" title="Processing">Processing<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Visualization/" title="Visualization">Visualization<sup>1</sup></a></li>
+				<li><a href="/tags/Patent-claim/" title="Patent claim">Patent claim<sup>1</sup></a></li>
 			
 		
 			
@@ -295,11 +295,11 @@
 			
 		
 			
-				<li><a href="/tags/readability/" title="readability">readability<sup>1</sup></a></li>
+				<li><a href="/tags/Visualization/" title="Visualization">Visualization<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Patent-claim/" title="Patent claim">Patent claim<sup>1</sup></a></li>
+				<li><a href="/tags/readability/" title="readability">readability<sup>1</sup></a></li>
 			
 		
 			

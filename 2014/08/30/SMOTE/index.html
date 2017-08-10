@@ -118,7 +118,7 @@
 </ol>
 <p>这样总结出来就是有两个大的方向：重采样方法和算法改进方法。SMOTE就是重采样方法中的一个，具体来说，是对少数样本的重采样。正如以上提出过的问题：重采样中最简单的办法是简单复制少数类样本，缺点是可能导致过拟合，没有给少数类增加任何新的信息。于是在Chawla等人的论文中提出了SMOTE来增加合成类。SMOTE的全称是：Synthetic Minority Over-sampling Technique，这样就很直白了，直译过来就是合成的少数类重采样技术。</p>
 <p>SMOTE的基本思想是在少数类中，假设少数类的样本之间的样本依然是少数类，根据近邻样本，人工合成新的样本从而达到解决少数类样本不足的问题。具体来说，对于少数类$P$中的一个样本$x_{i}$，考虑其周围的$k$个少数类样本，根据以下公式合成新的样本：<br>$$y_{j}=x_{i}+rand(0,1)\times(x_{i}-x_{ij})$$<br>其中，$rand(0,1)$表示随机取一个0到1之间的数。张永等人的论文中有一幅图形象的描述了这个过程：<br><img src="http://dscphoto.qiniudn.com/smote.PNG" alt="SMOTE示意"></p>
-<p>最后，给出Chawla等人原文的伪代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">Algorithm SMOTE(T, N, k)</div><div class="line">Input: Number of minority class samples T; Amount of SMOTE N%; Number of nearest</div><div class="line">neighbors k</div><div class="line">Output: (N/100) * T synthetic minority class samples</div><div class="line">(* If N is less than 100%, randomize the minority class samples as only a random</div><div class="line">percent of them will be SMOTEd. *)</div><div class="line">if N &lt; 100</div><div class="line">	then Randomize the T minority class samples</div><div class="line">		T = (N/100) * T</div><div class="line">		N = 100</div><div class="line">endif</div><div class="line">N = (int)(N/100) (* The amount of SMOTE is assumed to be in integral multiples of</div><div class="line">100. *)</div><div class="line">k = Number of nearest neighbors</div><div class="line">numattrs = Number of attributes</div><div class="line">Sample[ ][ ]: array for original minority class samples</div><div class="line">newindex: keeps a count of number of synthetic samples generated, initialized to 0</div><div class="line">Synthetic[ ][ ]: array for synthetic samples</div><div class="line">(* Compute k nearest neighbors for each minority class sample only. *)</div><div class="line">for i ← 1 to T</div><div class="line">	Compute k nearest neighbors for i, and save the indices in the nnarray</div><div class="line">	Populate(N, i, nnarray)</div><div class="line">endfor</div><div class="line"></div><div class="line">Populate(N, i, nnarray) (* Function to generate the synthetic samples. *)</div><div class="line">while N 6= 0</div><div class="line">	Choose a random number between 1 and k, call it nn. This step chooses one of</div><div class="line">	the k nearest neighbors of i.</div><div class="line">	for attr ← 1 to numattrs</div><div class="line">		Compute: dif = Sample[nnarray[nn]][attr]− Sample[i][attr]</div><div class="line">		Compute: gap = random number between 0 and 1</div><div class="line">		Synthetic[newindex][attr] = Sample[i][attr] + gap ∗ dif</div><div class="line">	endfor</div><div class="line">	newindex++</div><div class="line">	N = N − 1</div><div class="line">endwhile</div><div class="line">return (* End of Populate. *)</div><div class="line">End of Pseudo-Code.</div></pre></td></tr></table></figure></p>
+<p>最后，给出Chawla等人原文的伪代码：<br><figure class="highlight oxygene"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">Algorithm SMOTE(T, N, k)</div><div class="line">Input: Number <span class="keyword">of</span> minority <span class="keyword">class</span> samples T; Amount <span class="keyword">of</span> SMOTE N%; Number <span class="keyword">of</span> nearest</div><div class="line">neighbors k</div><div class="line">Output: (N/<span class="number">100</span>) * T synthetic minority <span class="keyword">class</span> samples</div><div class="line"><span class="comment">(* If N is less than 100%, randomize the minority class samples as only a random</span></div><div class="line"><span class="comment">percent of them will be SMOTEd. *)</span></div><div class="line"><span class="keyword">if</span> N &lt; <span class="number">100</span></div><div class="line">	<span class="keyword">then</span> Randomize the T minority <span class="keyword">class</span> samples</div><div class="line">		T = (N/<span class="number">100</span>) * T</div><div class="line">		N = <span class="number">100</span></div><div class="line">endif</div><div class="line">N = (int)(N/<span class="number">100</span>) <span class="comment">(* The amount of SMOTE is assumed to be in integral multiples of</span></div><div class="line"><span class="comment">100. *)</span></div><div class="line">k = Number <span class="keyword">of</span> nearest neighbors</div><div class="line">numattrs = Number <span class="keyword">of</span> attributes</div><div class="line">Sample[ ][ ]: <span class="keyword">array</span> <span class="keyword">for</span> original minority <span class="keyword">class</span> samples</div><div class="line">newindex: keeps a count <span class="keyword">of</span> number <span class="keyword">of</span> synthetic samples generated, initialized <span class="keyword">to</span> <span class="number">0</span></div><div class="line">Synthetic[ ][ ]: <span class="keyword">array</span> <span class="keyword">for</span> synthetic samples</div><div class="line"><span class="comment">(* Compute k nearest neighbors for each minority class sample only. *)</span></div><div class="line"><span class="keyword">for</span> i ← <span class="number">1</span> <span class="keyword">to</span> T</div><div class="line">	Compute k nearest neighbors <span class="keyword">for</span> i, <span class="keyword">and</span> save the indices <span class="keyword">in</span> the nnarray</div><div class="line">	Populate(N, i, nnarray)</div><div class="line">endfor</div><div class="line"></div><div class="line">Populate(N, i, nnarray) <span class="comment">(* Function to generate the synthetic samples. *)</span></div><div class="line"><span class="keyword">while</span> N <span class="number">6</span>= <span class="number">0</span></div><div class="line">	Choose a random number between <span class="number">1</span> <span class="keyword">and</span> k, call it nn. This <span class="keyword">step</span> chooses one <span class="keyword">of</span></div><div class="line">	the k nearest neighbors <span class="keyword">of</span> i.</div><div class="line">	<span class="keyword">for</span> attr ← <span class="number">1</span> <span class="keyword">to</span> numattrs</div><div class="line">		Compute: dif = Sample[nnarray[nn]][attr]− Sample[i][attr]</div><div class="line">		Compute: gap = random number between <span class="number">0</span> <span class="keyword">and</span> <span class="number">1</span></div><div class="line">		Synthetic[newindex][attr] = Sample[i][attr] + gap ∗ dif</div><div class="line">	endfor</div><div class="line">	newindex++</div><div class="line">	N = N − <span class="number">1</span></div><div class="line">endwhile</div><div class="line">return <span class="comment">(* End of Populate. *)</span></div><div class="line"><span class="keyword">End</span> <span class="keyword">of</span> Pseudo-Code.</div></pre></td></tr></table></figure></p>
 <p>参考文献：</p>
 <ul>
 <li>张永, 李卓然, 刘小丹. 基于主动学习 SMOTE 的非均衡数据分类[J]. 计算机应用与软件, 2012, 29(3): 91-93.</li>
@@ -258,15 +258,11 @@
 			
 		
 			
-				<li><a href="/tags/python/" title="python">python<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/NLP/" title="NLP">NLP<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/PRML/" title="PRML">PRML<sup>2</sup></a></li>
+				<li><a href="/tags/python/" title="python">python<sup>2</sup></a></li>
 			
 		
 			
@@ -274,11 +270,15 @@
 			
 		
 			
+				<li><a href="/tags/PRML/" title="PRML">PRML<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Processing/" title="Processing">Processing<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Visualization/" title="Visualization">Visualization<sup>1</sup></a></li>
+				<li><a href="/tags/Patent-claim/" title="Patent claim">Patent claim<sup>1</sup></a></li>
 			
 		
 			
@@ -294,11 +294,11 @@
 			
 		
 			
-				<li><a href="/tags/readability/" title="readability">readability<sup>1</sup></a></li>
+				<li><a href="/tags/Visualization/" title="Visualization">Visualization<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Patent-claim/" title="Patent claim">Patent claim<sup>1</sup></a></li>
+				<li><a href="/tags/readability/" title="readability">readability<sup>1</sup></a></li>
 			
 		
 			
