@@ -1,0 +1,22 @@
+# Hexo Configuration
+title: iFourseasons
+subtitle: ''
+description: '技术博客 | 算法 | AI | Python'
+author: dsc
+language: zh-CN
+timezone: ''
+
+url: https://flydsc.github.io
+root: /
+
+permalink: :year/:month/:day/:title/
+
+source_dir: source
+public_dir: public
+
+theme: jacman
+
+deploy:
+  type: git
+  repo: github.com-flydsc:flydsc/flydsc.github.io.git
+  branch: master
